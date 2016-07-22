@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="groupCode">
+<delete id="delete" parameterType="String">
+	 DELETE FROM bab_groupCode
+	 WHERE grpCode = #{grpCode}
+</delete>
+<update id="update" parameterType="groupCodeDTO">
+	UPDATE bab_groupCode                  
+	SET grpCode=#{grpCode}, groupName=#{groupName}, upperCode=#{upperCode}
+	WHERE grpCode = #{grpCode}             
+</update>
+<insert id="create" parameterType="groupCodeDTO">
+	INSERT INTO bab_groupCode(grpCode, groupName, upperCode)
+	VALUES(#{grpCode}, #{groupName}, #{upperCode})                           
+</insert>
+                                       
+<select id="read" resultType="groupCodeDTO" parameterType="String">
+	select grpCode, groupName, upperCode from bab_groupCode
+	where grpCode = #{grpCode}                      
+</select>
+</mapper>

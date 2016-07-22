@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="review">
+
+  <insert id="create" parameterType="ReviewDTO" >
+	INSERT INTO bab_review(revNum, restNum, title, content, rankScore)
+	VALUES((SELECT NVL(MAX(revNum), 0) + 1 FROM bab_review), #{restNum}, #{title}, #{content}, #{rankScore})
+  </insert>
+  
+  <select id="read" parameterType="int" resultType="ReviewDTO">
+	SELECT * FROM bab_review 
+	WHERE revNum= #{revNum}  
+  </select>
+
+  <update id="update" parameterType="ReviewDTO">
+	UPDATE bab_review
+	SET restNum = #{restNum}, title = #{title}, content = #{content}, rankScore = #{rankScore}
+	WHERE revNum = #{revNum}
+  </update>
+
+  <delete id="delete" parameterType="int">
+	DELETE FROM bab_review
+	WHERE revNum = #{revNum}
+  </delete>
+
+
+<select id="total" parameterType="Map" resultType="int">
+	SELECT count(*) FROM bab_review
+	<where>
+	<choose>
+		<when test="col=='title'">
+			title LIKE '%'||#{word}||'%'
+		</when>
+		<when test="col=='content'">
+			content LIKE '%'||#{word}||'%'
+		</when>
+		<when test="col=='rankScore'">
+			rankScore LIKE '%'||#{word}||'%'
+		</when>
+	</choose>
+	</where>
+</select>
+
+<select id="list" resultType="ReviewDTO" parameterType="Map">
+select revNum, restNum, title, content, rankScore, r
+FROM(
+     select revNum, restNum, title, content, rankScore, rownum r
+     FROM(
+          select revNum, restNum, title, content, rankScore
+          from bab_review
+           <where>
+	           <choose>
+		           <when test="col=='title'">
+		           title like '%'||#{word}||'%'
+		           </when>
+		           <when test="col=='content'">
+		           content like '%'||#{word}||'%'
+		           </when>
+		           <when test="col=='rankScore'">
+		           rankScore like '%'||#{word}||'%'
+		           </when>           
+	           </choose>      
+           </where>                                                                 
+			order by revNum ASC
+        )
+    )                                                                            
+   <![CDATA[                                                                        
+   where r>=#{sno} and r<=#{eno}  
+   ]]>
+  </select>      
+</mapper>

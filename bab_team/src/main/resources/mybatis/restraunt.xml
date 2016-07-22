@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="restraurant"> 
+
+
+	<delete id="delete" parameterType="int">
+	DELETE FROM bab_restraurant  
+	WHERE restNum = #{restNum}
+	</delete>
+	
+	<update id="update" parameterType="restrauntDTO">
+	UPDATE bab_restraurant               
+	SET restName=#{restName}, 
+		restAddr=#{restAddr}, 
+		restPhone=#{restPhone}, 
+		foodKind =#{foodKind},
+		priceRange=#{priceRange},
+		restTime=#{restTime}
+	WHERE restNum = #{restNum}            
+	</update>
+
+	<insert id="create" parameterType="restrauntDTO" >
+insert into bab_restraurant
+values((select nvl(max(restNum),0)+1 from bab_restraurant),
+#{memID}, #{restName}, #{restAddr}, #{restPhone}, #{foodKind}, #{priceRange}, #{restTime})
+	</insert>
+
+	<select id ="total" parameterType="Map" resultType="int">
+		SELECT  count(*) FROM bab_restraurant
+		<where>
+			<choose>
+				 <when test="col=='restName'">
+		            restName like '%'||#{word}||'%'
+		            </when>
+		            <when test="col=='restAddr'">
+		            restAddr like '%'||#{word}||'%'
+		            </when>
+		            <when test="col=='foodKind'">
+		            foodKind'%'||#{word}||'%'
+		            </when>
+			</choose>
+		</where>
+	
+	</select>
+	
+	<resultMap type="ReservationDTO" id="restraurantMap">
+    	<result property="restNum" column="restNum"/>
+    	<result property="memID" column="memID"/>
+    	<result property="restName" column="restName"/>
+    	<result property="restAddr" column="restAddr"/>
+    	<result property="restPhone" column="restPhone"/>
+    	<result property="foodKind" column="foodKind"/>
+    	<result property="priceRange" column="priceRange"/>
+    	<result property="restTime" column="restTime"/>
+    	<collection property="imgdtolist" column="restNum" javaType="List" ofType="ImgDTO" resultMap="restraurant.ImgDTOListMap">
+    	</collection>
+    	<collection property="seatdtolist" column="restNum" javaType="List" ofType="SeatDTO" resultMap="restraurant.ImgDTOListMap">
+    	</collection>
+    </resultMap>
+    <resultMap type="ImgDTO" id="ImgDTOListMap">
+    	<result property="imgNum" column="imgNum"/>
+    	<result property="restNum" column="restNum"/>
+    	<result property="imgName" column="imgName"/>
+    	<result property="filename" column="filename"/>
+    </resultMap>
+	
+	<select id="readTotalImg" resultMap="restraurantMap" parameterType="int" >
+	  	select r.restNum, r.memID, r.restName, r.restAddr, r.restPhone, r.foodKind, r.priceRange, r.restTime,
+		i.imgNum, i.imgName, i.restNum
+		from bab_restraurant r, bab_image i
+		where r.restNum = i.restNum;                                                                      
+	</select>
+	
+	<select id="readTotalSeat" resultMap="seatMap" parameterType="int" >
+	  	select r.restNum, r.memID, r.restName, r.restAddr, r.restPhone, r.foodKind, r.priceRange, r.restTime,
+		i.imgNum, i.imgName, i.restNum
+		from bab_restraurant r, bab_image i
+		where r.restNum = i.restNum;                                                                      
+	</select>
+	  
+  <select id="list" resultType="restrauntDTO" parameterType="Map">
+    SELECT restNum, memID,restName,restAddr,restPhone,foodKind,priceRange,restTime, r                                                                 
+	 FROM(                                                                    
+		 	SELECT restNum, memID,restName,restAddr,restPhone,foodKind,priceRange,restTime, rownum r                                                     
+			FROM(                                                             
+			 		SELECT restNum, memID,restName,restAddr,restPhone,foodKind,priceRange,restTime
+			 		FROM bab_restraurant                                                                                                                       
+		      <where>
+		         <choose>
+		            <when test="col=='restName'">
+		            restName like '%'||#{word}||'%'
+		            </when>
+		            <when test="col=='restAddr'">
+		            restAddr like '%'||#{word}||'%'
+		            </when>
+		            <when test="col=='foodKind'">
+		            foodKind'%'||#{word}||'%'
+	            </when>           
+            </choose>      
+          </where>                                                                 
+         ORDER BY grpno DESC, ansnum ASC                                             
+        
+        )
+    )                                                                            
+   <![CDATA[                                                                        
+   where r>=#{sno} and r<=#{eno}  
+   ]]>                                                           
+  </select>
+ 
+	  <select id="read" resultType="restrauntDTO" parameterType="int" >
+	  SELECT restnum, restname, restaddr, restphone, foodkind, pricerange,resttime
+		FROM bab_restraurant                                        
+		WHERE restnum = #{restnum}                                                                      
+	  </select>
+	      
+</mapper>
+ 
+ 
+

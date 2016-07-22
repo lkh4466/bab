@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="seat">
+<delete id="delete" parameterType="int">
+	 DELETE FROM bab_seat
+	 WHERE seatsNum = #{seatsNum}
+</delete>
+<update id="update" parameterType="SeatDTO">
+	UPDATE bab_seat                  
+	SET seat_width=#{seat_width}, seat_height=#{seat_height}, seat_floor=#{seat_floor},
+	seat_info=#{seat_info}, restNum=#{restNum}
+	WHERE seatsNum = #{seatsNum}             
+</update>
+<insert id="create" parameterType="SeatDTO">
+	INSERT INTO bab_seat(seatsNum, seat_width, seat_height, seat_floor, seat_info, restNum)
+	VALUES((SELECT NVL(MAX(seatsNum), 0) + 1 FROM bab_seat),
+	#{seat_width}, #{seat_height}, #{seat_floor}, #{seat_info}, #{restNum})                      
+</insert>
+                                       
+<select id="read" resultType="SeatDTO" parameterType="int">
+	select seatsNum, seat_width, seat_height, seat_floor, seat_info, restNum
+	from bab_seat
+	where seatsNum = #{seatsNum}                     
+</select>
+</mapper>

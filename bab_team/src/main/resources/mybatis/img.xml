@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="img">
+
+
+<update id="updateFile" parameterType="Map">
+UPDATE bab_img  
+SET fname = #{fname}
+WHERE imgname = #{imgname} 
+</update>
+
+
+
+<delete id="delete">
+DELETE FROM bab_img
+WHERE imgnum = #{imgnum}
+</delete>
+
+<update id="update" parameterType="ImgDTO">
+UPDATE bab_img                              
+SET wname=#{imgname} 
+WHERE imgnum = #{imgnum}                         
+</update>
+
+<insert id="create" parameterType="ImgDTO">
+insert into bab_image(imgNum, imgName, restNum)
+values((select nvl(max(imgNum),0)+1 from bab_image), #{babimg}, 1)
+
+
+</insert>
+
+
+<select id="read" parameterType="int" resultType="ImgDTO">
+	SELECT * FROM img
+	WHERE imgno = #{imgno}
+</select>
+                
+
+
+</mapper>

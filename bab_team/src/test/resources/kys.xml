@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 데이터베이스 접속 설정 -->
+	<bean id="dataSource1" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource" 
+		p:driverClassName="oracle.jdbc.driver.OracleDriver"
+		p:url="jdbc:oracle:thin:@172.16.3.29:1521:XE" 
+		p:username="KANGHEE"
+		p:password="1234" />
+
+
+	<!-- MyBatis SQL 실행 클래스 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource1" />
+		<!-- 아래부분은 매핑할 xml파일이 있는 패키지경로를 설정한다. -->
+		<property name="typeAliasesPackage" value="spring.model" />
+		<property name="mapperLocations" value="classpath:mybatis/*.xml" />
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- ReplyDAO 객체 생성 -->
+	<!-- 
+	<bean id="rdao" class="spring.model.bbs.ReplyDAO"
+		p:sqlSessionTemplate-ref="sqlSession" />
+	-->
+	
+	<bean id="msgDAO" class="spring.model.msg.MsgDAO"
+		p:sqlSessionTemplate-ref="sqlSession" />
+		
+		<!-- MemberDAO 객체 생성 -->
+ 	<bean id="memberDAO" class="spring.model.member.MemberDAO"
+ 		p:sqlSessionTemplate-ref="sqlSession" />
+ 	<!-- ReviewDAO 객체 생성 -->
+ 	<bean id="reviewDAO" class="spring.model.review.ReviewDAO"
+ 		p:sqlSessionTemplate-ref="sqlSession" />
+ 	<!-- FoodDAO 객체 생성 -->
+ 	<bean id="foodDAO" class="spring.model.food.FoodDAO"
+ 		p:sqlSessionTemplate-ref="sqlSession" />
+ 		
+ 	<bean id="ImgDAO" class="spring.model.food.ImgDAO"
+ 		p:sqlSessionTemplate-ref="sqlSession" />
+ 		<!--     Bab_reservationDAO 객체 생성 -->
+    <bean id="ReservationDAO"
+       class="spring.model.reservation.ReservationDAO"
+       p:mybatis-ref="sqlSession"/>
+       
+ <!--     Bab_orderDAO 객체 생성 -->
+    <bean id="OrderDAO"
+       class="spring.model.reservation.OrderDAO"
+       p:mybatis-ref="sqlSession"/>
+ 
+  <!--     Bab_peopleDAO 객체 생성 -->
+    <bean id="PeopleDAO"
+       class="spring.model.reservation.PeopleDAO"
+       p:mybatis-ref="sqlSession"/>
+  
+   <!--     Bab_seatDAO 객체 생성 -->
+    <bean id="SeatDAO"
+       class="spring.model.restraurant.SeatDAO"
+       p:mybatis-ref="sqlSession"/>
+       
+       <!--     Bab_groupCodeDAO 객체 생성 -->
+    <bean id="GroupCodeDAO"
+       class="spring.model.bab_food.GroupCodeDAO"
+       p:mybatis-ref="sqlSession"/>
+ 		
+ 		
+</beans>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="msg">
+
+	<select id="list" resultType="MsgDTO" parameterType="Map">
+		SELECT 	msgNum, msgContent, sendID, sendDate,
+				sendDelete, recvID, recvDate,
+				recvDelete, recvRead, r                                                               
+		FROM(                                                                  
+			SELECT 	msgNum, msgContent, sendID, sendDate,
+					sendDelete, recvID, recvDate,
+					recvDelete, recvRead, rownum r                                                   
+			FROM(                                                   
+				SELECT 	msgNum, msgContent, sendID, sendDate,
+						sendDelete, recvID, recvDate,
+						recvDelete, recvRead  
+				FROM bab_messagebox                                                                                                                           
+	          	<where>
+				  	<choose>
+				  		<when test="col=='sendDeleteT'">
+				  			sendDelete = 'T' and sendID = #{id}
+				  		</when>
+				  		<when test="col=='sendDeleteF'">
+				  			sendDelete = 'F' and sendID = #{id}
+				  		</when>
+				  		<when test="col=='recvDeleteT'">
+				  			recvDelete = 'T' and recvID = #{id}
+				  		</when>
+				  		<when test="col=='recvDeleteF'">
+				  			recvDelete = 'F' and recvID = #{id}
+				  		</when>
+				  	</choose> 	
+			  	</where>                                                                 
+		      ORDER BY msgNum desc                                           
+	        )
+	    )                                                                            
+	   <![CDATA[                                                                        
+	   where r>=#{sno} and r<=#{eno}  
+	   ]]> 
+	</select>
+	
+	<select id="total" resultType="int" parameterType="Map">
+		SELECT count(*) FROM bab_messagebox
+	  	<where>
+		  	<choose>
+		  		<when test="col=='sendDeleteT'">
+		  			sendDelete = 'T' and sendID = #{id}
+		  		</when>
+		  		<when test="col=='sendDeleteF'">
+		  			sendDelete = 'F' and sendID = #{id}
+		  		</when>
+		  		<when test="col=='recvDeleteT'">
+		  			recvDelete = 'T' and recvID = #{id}
+		  		</when>
+		  		<when test="col=='recvDeleteF'">
+		  			recvDelete = 'F' and recvID = #{id}
+		  		</when>
+		  	</choose> 	
+	  	</where>  
+	</select>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM bab_messagebox
+ 		WHERE msgNum = #{msgNum}
+	</delete>
+	
+	<update id="deleteCheck" parameterType="MsgDTO">
+		UPDATE bab_messagebox
+		SET	sendDelete = #{sendDelete},
+			recvDelete = #{recvDelete}                                                                          
+	   where 
+	   		msgNum = #{msgNum}
+	</update>
+	
+	<update id="readCheck" parameterType="int">
+		UPDATE bab_messagebox
+		SET
+			recvRead = 'T',
+			recvDate = sysdate
+		WHERE 
+			msgNum = #{msgNum}
+	</update>
+
+	<select id="read" resultType="MsgDTO" parameterType="int">
+		SELECT * FROM bab_messagebox
+		WHERE msgNum = #{msgNum}
+	</select>
+	
+	<insert id="create" parameterType="MsgDTO">
+		<selectKey keyProperty="msgNum" resultType="int" order="BEFORE">
+			select nvl(max(msgNum),0)+1 from bab_messagebox
+		</selectKey>
+		INSERT INTO bab_messagebox(
+			msgNum, 
+			msgContent, sendID, sendDate, recvID
+		) VALUES(
+			#{msgNum}, #{msgContent}, #{sendID}, sysdate, #{recvID}
+		)
+	</insert>
+	
+</mapper>

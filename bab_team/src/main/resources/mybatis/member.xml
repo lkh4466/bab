@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="member">
+
+  <insert id="create" parameterType="MemberDTO" >
+	INSERT INTO bab_member(memID, passwd, point, email, name, grade)
+	VALUES(#{memID}, #{passwd}, #{point}, #{email}, #{name}, #{grade})
+  </insert>
+  
+  <select id="read" parameterType="int" resultType="MemberDTO">
+	SELECT * FROM bab_member 
+	WHERE memID = #{memID}  
+  </select>
+
+  <update id="update" parameterType="MemberDTO">
+	UPDATE bab_member
+	SET passwd = #{passwd}, email = #{email}, grade = #{grade}
+	WHERE memID = #{memID}
+  </update>
+
+  <delete id="delete" parameterType="int">
+	DELETE FROM bab_member
+	WHERE memID = #{memID}
+  </delete>
+
+
+<select id="total" parameterType="Map" resultType="int">
+	SELECT count(*) FROM bab_member
+	<where>
+	<choose>
+		<when test="col=='memID'">
+			memID LIKE '%'||#{word}||'%'
+		</when>
+		<when test="col=='email'">
+			email LIKE '%'||#{word}||'%'
+		</when>
+		<when test="col=='name'">
+			name LIKE '%'||#{word}||'%'
+		</when>
+	</choose>
+	</where>
+</select>
+
+<select id="list" resultType="MemberDTO" parameterType="Map">
+select memID, passwd, email, name, grade,r
+FROM(
+     select memID, passwd, email, name, grade, rownum r
+     FROM(
+          select memID, passwd, email, name, grade
+          from bab_member
+           <where>
+	           <choose>
+		           <when test="col=='memID'">
+		           memID like '%'||#{word}||'%'
+		           </when>
+		           <when test="col=='email'">
+		           email like '%'||#{word}||'%'
+		           </when>
+		           <when test="col=='name'">
+		           name like '%'||#{word}||'%'
+		           </when>           
+	           </choose>      
+           </where>                                                                 
+	       order by memID ASC                                             
+        
+        )
+    )                                                                            
+   <![CDATA[                                                                        
+   where r>=#{sno} and r<=#{eno}  
+   ]]>                                                           
+  </select>      
+</mapper>

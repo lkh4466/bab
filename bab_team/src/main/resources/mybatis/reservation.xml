@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="reservation">
+<delete id="delete" parameterType="int">
+	 DELETE FROM bab_reservation
+	 WHERE resNum = #{resNum}
+</delete>
+<update id="update" parameterType="ReservationDTO">
+	UPDATE bab_reservation                  
+	SET resName=#{resName}, resPhone=#{resPhone}, resEmail=#{resEmail}, resTerm = #{resTerm}, seatNum=#{seatNum} 
+	WHERE resNum = #{resNum}             
+</update>
+<insert id="create" parameterType="ReservationDTO">
+	INSERT INTO bab_reservation(resNum, restNum, memID, resName, resPhone, resEmail, resTerm, seatNum)
+	VALUES((SELECT NVL(MAX(resNum), 0) + 1 FROM bab_reservation),
+	#{restNum}, #{memID}, #{resName}, #{resPhone}, #{resEmail}, #{resTerm}, #{seatNum})                                            
+</insert>
+
+<select id="total" parameterType="Map" resultType="int">
+	select count(*) from bab_reservation
+	<where>
+            <choose>
+            <when test="col=='memID'">
+            memID like '%'||#{word}||'%'
+            </when>
+            <when test="col=='resName'">
+            resName like '%'||#{word}||'%'
+            </when>
+            <when test="col=='seatNum'">
+            seatNum like '%'||#{word}||'%'
+            </when>           
+            </choose>      
+        </where>      
+</select>
+ 
+<select id="list" resultType="ReservationDTO" parameterType="Map">                                                       
+SELECT resNum, memID, resName, resTerm, seatNum, w                                                            
+FROM(                                                           
+	SELECT resNum, memID, resName, resTerm, seatNum, rownum w                                               
+	FROM(                                                     
+		SELECT resNum, memID, resName, resTerm, seatNum
+		FROM bab_reservation                                                   
+        <where>
+            <choose>
+            <when test="col=='memID'">
+            memID like '%'||#{word}||'%'
+            </when>
+            <when test="col=='resName'">
+            resName like '%'||#{word}||'%'
+            </when>
+            <when test="col=='seatNum'">
+            seatNum like '%'||#{word}||'%'
+            </when>           
+            </choose>      
+        </where>                                     
+		ORDER BY resNum DESC                             
+	)                                                                
+)
+<![CDATA[                                                                        
+   where w>=#{sno} and w<=#{eno}  
+]]>                                                           
+</select>
+<select id="read" resultType="ReservationDTO" parameterType="int">
+	select * from bab_reservation
+	where resNum = #{resNum}                      
+</select>
+
+<resultMap type="ReservationDTO" id="reservationMap">
+    	<result property="resNum" column="resNum"/>
+    	<result property="restNum" column="restNum"/>
+    	<result property="memID" column="memID"/>
+    	<result property="resName" column="resName"/>
+    	<result property="resPhone" column="resPhone"/>
+    	<result property="resEmail" column="resEmail"/>
+    	<result property="resTerm" column="resTerm"/>
+    	<result property="seatNum" column="seatNum"/>
+    	<result property="orderdto.orderNum" column="orderNum"/>
+    	<result property="orderdto.orderFood" column="orderFood"/>
+    	<result property="orderdto.orderNumber" column="orderNumber"/>
+    	<result property="orderdto.resNum" column="resNum2"/>
+    	<result property="peopledto.personCode" column="personCode"/>
+    	<result property="peopledto.general" column="general"/>
+    	<result property="peopledto.disabled" column="disabled"/>
+    	<result property="peopledto.child" column="child"/>
+    	<result property="peopledto.resNum" column="resNum3"/>
+    </resultMap>
+                                
+<select id="readDetail" resultMap="reservationMap" parameterType="int">
+	select r.resNum, r.restNum, r.memID, r.resName, r.resPhone, r.resEmail, r.resTerm, r.seatNum,
+	o.orderNum, o.orderFood, o.orderNumber, o.resNum as resNum2, p.personCode, p.general, p.disabled, p.child, p.resNum as resNum3
+ 	from bab_reservation r, bab_order o, bab_people p
+	where r.resNum = o.resNum and r.resNum = p.resNum and r.resNum = #{resNum}                   
+</select>
+</mapper>
