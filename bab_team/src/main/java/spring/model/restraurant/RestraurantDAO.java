@@ -6,11 +6,13 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import spring.model.restraurant.RestraurantDTO;
 
+@Component
 public class RestraurantDAO {
-	
+	@Autowired
+	private SqlSessionTemplate mybatis;
 	
 	public SqlSessionTemplate getMybatis() {
 		return mybatis;
@@ -20,8 +22,16 @@ public class RestraurantDAO {
 		this.mybatis = mybatis;
 	}
 
-	@Autowired
-	private SqlSessionTemplate mybatis;
+	
+	public List<RestraurantDTO> readTotalSeat(Map map){
+		   
+		   return mybatis.selectList("restraurant.readTotalSeat",map);
+		 }
+	
+	public List<RestraurantDTO> readTotalImg(Map map){
+		   
+		   return mybatis.selectList("restraurant.readTotalImg",map);
+		 }
 	/**
 	 * 전체 레코드 갯수 가져옴
 	 * @param col
@@ -34,7 +44,7 @@ public class RestraurantDAO {
 		 map.put("word",word);
 		 
 		 
-		 return mybatis.selectOne("restraunt.total",map);
+		 return mybatis.selectOne("restraurant.total",map);
 	 }
 	
 	
@@ -46,7 +56,7 @@ public class RestraurantDAO {
 	  public int delete(int restnum){
 	    
 	    
-	    return mybatis.delete("restraunt.delete",restnum);
+	    return mybatis.delete("restraurant.delete",restnum);
 	  }
  
 	/**
@@ -54,10 +64,10 @@ public class RestraurantDAO {
 	   * @param vo 수정할 데이터가 있는 객체
 	   * @return 저장된 레코드 갯수
 	   */
-	  public int update(RestraurantDTO restrauntDTO){
+	  public int update(RestraurantDTO restraurantDTO){
 	    
 	    
-	    return mybatis.update("restraunt.update",restrauntDTO);
+	    return mybatis.update("restraurant.update",restraurantDTO);
 	  }
 	
 	 
@@ -69,7 +79,7 @@ public class RestraurantDAO {
 	  public RestraurantDTO read(int restnum){
 	   
 	    
-	    return mybatis.selectOne("restraunt.read",restnum);
+	    return mybatis.selectOne("restraurant.read",restnum);
 	  }
 	 
 	 
@@ -79,12 +89,12 @@ public class RestraurantDAO {
 	  */
 	 public List<RestraurantDTO> list(Map map){
 	   
-	   return mybatis.selectList("restraunt.list",map);
+	   return mybatis.selectList("restraurant.list",map);
 	 }
 	 
-	 public int create(RestraurantDTO restrauntDTO){
+	 public int create(RestraurantDTO restraurantDTO){
 		
-		return mybatis.insert("restraunt.create",restrauntDTO);
+		return mybatis.insert("restraurant.create",restraurantDTO);
 	}
   
 

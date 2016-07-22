@@ -4,14 +4,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="restraurant"> 
-
-
 	<delete id="delete" parameterType="int">
 	DELETE FROM bab_restraurant  
 	WHERE restNum = #{restNum}
 	</delete>
 	
-	<update id="update" parameterType="restrauntDTO">
+	<update id="update" parameterType="RestraurantDTO">
 	UPDATE bab_restraurant               
 	SET restName=#{restName}, 
 		restAddr=#{restAddr}, 
@@ -22,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE restNum = #{restNum}            
 	</update>
 
-	<insert id="create" parameterType="restrauntDTO" >
+	<insert id="create" parameterType="RestraurantDTO" >
 insert into bab_restraurant
 values((select nvl(max(restNum),0)+1 from bab_restraurant),
 #{memID}, #{restName}, #{restAddr}, #{restPhone}, #{foodKind}, #{priceRange}, #{restTime})
@@ -57,7 +55,7 @@ values((select nvl(max(restNum),0)+1 from bab_restraurant),
     	<result property="restTime" column="restTime"/>
     	<collection property="imgdtolist" column="restNum" javaType="List" ofType="ImgDTO" resultMap="restraurant.ImgDTOListMap">
     	</collection>
-    	<collection property="seatdtolist" column="restNum" javaType="List" ofType="SeatDTO" resultMap="restraurant.ImgDTOListMap">
+    	<collection property="seatdtolist" column="restNum" javaType="List" ofType="SeatDTO" resultMap="restraurant.SeatDTOListMap">
     	</collection>
     </resultMap>
     <resultMap type="ImgDTO" id="ImgDTOListMap">
@@ -65,6 +63,14 @@ values((select nvl(max(restNum),0)+1 from bab_restraurant),
     	<result property="restNum" column="restNum"/>
     	<result property="imgName" column="imgName"/>
     	<result property="filename" column="filename"/>
+    </resultMap>
+    <resultMap type="SeatDTO" id="SeatDTOListMap">
+    	<result property="seatsNum" column="seatsNum"/>
+    	<result property="seat_width" column="seat_width"/>
+    	<result property="seat_height" column="seat_height"/>
+    	<result property="seat_floor" column="seat_floor"/>
+    	<result property="seat_info" column="seat_info"/>
+    	<result property="restNum" column="restNum"/>
     </resultMap>
 	
 	<select id="readTotalImg" resultMap="restraurantMap" parameterType="int" >
@@ -76,12 +82,12 @@ values((select nvl(max(restNum),0)+1 from bab_restraurant),
 	
 	<select id="readTotalSeat" resultMap="seatMap" parameterType="int" >
 	  	select r.restNum, r.memID, r.restName, r.restAddr, r.restPhone, r.foodKind, r.priceRange, r.restTime,
-		i.imgNum, i.imgName, i.restNum
-		from bab_restraurant r, bab_image i
-		where r.restNum = i.restNum;                                                                      
+		s.seatsNum, s.seat_width, s.seat_height, s.seat_floor, s.seat_info, s.restNum
+		from bab_restraurant r, bab_seat s
+		where r.restNum = s.restNum;                                                                      
 	</select>
 	  
-  <select id="list" resultType="restrauntDTO" parameterType="Map">
+  <select id="list" resultType="RestraurantDTO" parameterType="Map">
     SELECT restNum, memID,restName,restAddr,restPhone,foodKind,priceRange,restTime, r                                                                 
 	 FROM(                                                                    
 		 	SELECT restNum, memID,restName,restAddr,restPhone,foodKind,priceRange,restTime, rownum r                                                     
@@ -110,7 +116,7 @@ values((select nvl(max(restNum),0)+1 from bab_restraurant),
    ]]>                                                           
   </select>
  
-	  <select id="read" resultType="restrauntDTO" parameterType="int" >
+	  <select id="read" resultType="RestraurantDTO" parameterType="int" >
 	  SELECT restnum, restname, restaddr, restphone, foodkind, pricerange,resttime
 		FROM bab_restraurant                                        
 		WHERE restnum = #{restnum}                                                                      

@@ -112,7 +112,7 @@ public class restrauntDAOTest {
 
 	@Test @Ignore
 	public void testCreate() {
-		RestraurantDAO restrauntDAO = (RestraurantDAO) beans.getBean("restraurantDAO");
+		RestraurantDAO restraurantDAO = (RestraurantDAO) beans.getBean("restraurantDAO");
 		RestraurantDTO restrauntDTO = new RestraurantDTO();
 		
 		restrauntDTO.setMemID("user1");
@@ -123,7 +123,7 @@ public class restrauntDAOTest {
 		restrauntDTO.setFoodKind("한식");
 		restrauntDTO.setPriceRange(100000);
 		
-		assertEquals(1,restrauntDAO.create(restrauntDTO));
+		assertEquals(1,restraurantDAO.create(restrauntDTO));
 	}
 
 }
