@@ -23,14 +23,14 @@ public class RestraurantDAO {
 	}
 
 	
-	public List<RestraurantDTO> readTotalSeat(Map map){
+	public List<RestraurantDTO> readTotalSeat(int restNum){
 		   
-		   return mybatis.selectList("restraurant.readTotalSeat",map);
+		   return mybatis.selectList("restraurant.readTotalSeat", restNum);
 		 }
 	
-	public List<RestraurantDTO> readTotalImg(Map map){
+	public List<RestraurantDTO> readTotalImg(int restNum){
 		   
-		   return mybatis.selectList("restraurant.readTotalImg",map);
+		   return mybatis.selectList("restraurant.readTotalImg", restNum);
 		 }
 	/**
 	 * 전체 레코드 갯수 가져옴

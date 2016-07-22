@@ -11,7 +11,7 @@ public class RestraurantDTO {
 	    private String	foodKind;
 	    private int 	priceRange;
 	    private String	restTime;
-	    private List	imgdtolist;
+	    private List	imgdtolist; //1:n
 	    private List	seatdtolist;
 	    
 		public List getSeatdtolist() {

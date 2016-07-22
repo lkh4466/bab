@@ -44,7 +44,7 @@ values((select nvl(max(restNum),0)+1 from bab_restraurant),
 	
 	</select>
 	
-	<resultMap type="ReservationDTO" id="restraurantMap">
+	<resultMap type="RestraurantDTO" id="restraurantMap">
     	<result property="restNum" column="restNum"/>
     	<result property="memID" column="memID"/>
     	<result property="restName" column="restName"/>
@@ -53,10 +53,8 @@ values((select nvl(max(restNum),0)+1 from bab_restraurant),
     	<result property="foodKind" column="foodKind"/>
     	<result property="priceRange" column="priceRange"/>
     	<result property="restTime" column="restTime"/>
-    	<collection property="imgdtolist" column="restNum" javaType="List" ofType="ImgDTO" resultMap="restraurant.ImgDTOListMap">
-    	</collection>
-    	<collection property="seatdtolist" column="restNum" javaType="List" ofType="SeatDTO" resultMap="restraurant.SeatDTOListMap">
-    	</collection>
+    	<collection property="imgdtolist" column="restNum" javaType="List" ofType="ImgDTO" resultMap="restraurant.ImgDTOListMap"/>
+    	<collection property="seatdtolist" column="restNum" javaType="List" ofType="SeatDTO" resultMap="restraurant.SeatDTOListMap"/>
     </resultMap>
     <resultMap type="ImgDTO" id="ImgDTOListMap">
     	<result property="imgNum" column="imgNum"/>

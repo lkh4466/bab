@@ -2,9 +2,7 @@ package spring.model.restraurant;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,6 +14,9 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+
+import javassist.bytecode.Descriptor.Iterator;
+import spring.model.reservation.ReservationDTO;
 
 public class restrauntDAOTest {
 	private static BeanFactory beans;
@@ -39,8 +40,26 @@ public class restrauntDAOTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
+	
 	@Test @Ignore
+	public void testReadTotalSeat() {
+		RestraurantDAO restrauntDAO = (RestraurantDAO) beans.getBean("restraurantDAO");
+		List readTotalSeat = restrauntDAO.readTotalSeat(3);
+		RestraurantDTO dto  = (RestraurantDTO)readTotalSeat.get(3);
+		SeatDTO sdto= (SeatDTO) dto.getSeatdtolist().get(2);
+		assertEquals(10, sdto.seat_width());
+	}
+	
+	@Test @Ignore
+	public void testReadTotalImg() {
+		RestraurantDAO restrauntDAO = (RestraurantDAO) beans.getBean("restraurantDAO");
+		List readTotalImg = restrauntDAO.readTotalImg(3);
+		RestraurantDTO dto  = (RestraurantDTO)readTotalImg.get(2);
+		ImgDTO idto= (ImgDTO) dto.getImgdtolist().get(2);
+		assertEquals("돈가스.jpg", idto.getFileName());
+	}
+
+	@Test //@Ignore
 	public void testTotal() {
 		RestraurantDAO restrauntDAO = (RestraurantDAO)beans.getBean("restraurantDAO");
 		assertEquals(11,restrauntDAO.total("wname", ""));
@@ -81,15 +100,11 @@ public class restrauntDAOTest {
 		fail("Not yet implemented");
 	}
 
-	@Test @Ignore
+	@Test //@Ignore
 	public void testRead() {
 		RestraurantDAO restrauntDAO = (RestraurantDAO) beans.getBean("restraurantDAO");
 		RestraurantDTO restrauntDTO = restrauntDAO.read(1);
 		assertEquals("2조 분식",restrauntDTO.getRestName());
-		
-		
-		
-		
 		
 	}
 
