@@ -44,10 +44,10 @@
  	<bean id="foodDAO" class="spring.model.food.FoodDAO"
  		p:sqlSessionTemplate-ref="sqlSession" />
  		
- 	<bean id="ImgDAO" class="spring.model.restraurant.ImgDAO"
+ 	<bean id="imgDAO" class="spring.model.restraurant.ImgDAO"
  		p:mybatis-ref="sqlSession" />
  		
- 	<bean id="RestraurantDAO" class="spring.model.restraurant.RestraurantDAO"
+ 	<bean id="restraurantDAO" class="spring.model.restraurant.RestraurantDAO"
  		p:mybatis-ref="sqlSession" />
  		
  		<!--     Bab_reservationDAO 객체 생성 -->
