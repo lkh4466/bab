@@ -41,21 +41,21 @@ public class restrauntDAOTest {
 	public void tearDown() throws Exception {
 	}
 	
-	@Test @Ignore
+	@Test //@Ignore
 	public void testReadTotalSeat() {
 		RestraurantDAO restrauntDAO = (RestraurantDAO) beans.getBean("restraurantDAO");
-		List readTotalSeat = restrauntDAO.readTotalSeat(2);
-		RestraurantDTO dto  = (RestraurantDTO)readTotalSeat.get(3);
-		SeatDTO sdto= (SeatDTO) dto.getSeatdtolist().get(2);
-		assertEquals(10, sdto.getSeat_width());
+		List<RestraurantDTO> readTotalSeat = restrauntDAO.readTotalSeat(3);
+		RestraurantDTO dto  = readTotalSeat.get(3);
+		SeatDTO sdto= (SeatDTO)dto.getSeatdtolist().get(2);
+		assertEquals(10, sdto.getSeat_floor());
 	}
 	
-	@Test //@Ignore
+	@Test @Ignore
 	public void testReadTotalImg() {
 		RestraurantDAO restrauntDAO = (RestraurantDAO) beans.getBean("restraurantDAO");
-		List<RestraurantDTO> readTotalImg = restrauntDAO.readTotalImg(1);
-		RestraurantDTO dto  = readTotalImg.get(1);
-		ImgDTO idto= (ImgDTO) dto.getImgdtolist().get(1);
+		List<RestraurantDTO> readTotalImg = restrauntDAO.readTotalImg(2);
+		RestraurantDTO dto  = readTotalImg.get(2);
+		ImgDTO idto= (ImgDTO) dto.getImgdtolist().get(3);
 		assertEquals("돈가스.jpg", idto.getImgName());
 	}
 
