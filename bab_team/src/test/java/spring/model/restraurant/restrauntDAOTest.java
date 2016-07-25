@@ -23,7 +23,7 @@ public class restrauntDAOTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Resource resource = new ClassPathResource("kwj.xml");
+		Resource resource = new ClassPathResource("kys.xml");
 
 		beans = new XmlBeanFactory(resource);
 
@@ -44,22 +44,22 @@ public class restrauntDAOTest {
 	@Test @Ignore
 	public void testReadTotalSeat() {
 		RestraurantDAO restrauntDAO = (RestraurantDAO) beans.getBean("restraurantDAO");
-		List readTotalSeat = restrauntDAO.readTotalSeat(3);
+		List readTotalSeat = restrauntDAO.readTotalSeat(2);
 		RestraurantDTO dto  = (RestraurantDTO)readTotalSeat.get(3);
 		SeatDTO sdto= (SeatDTO) dto.getSeatdtolist().get(2);
-		assertEquals(10, sdto.seat_width());
+		assertEquals(10, sdto.getSeat_width());
 	}
 	
-	@Test @Ignore
+	@Test //@Ignore
 	public void testReadTotalImg() {
 		RestraurantDAO restrauntDAO = (RestraurantDAO) beans.getBean("restraurantDAO");
-		List readTotalImg = restrauntDAO.readTotalImg(3);
-		RestraurantDTO dto  = (RestraurantDTO)readTotalImg.get(2);
-		ImgDTO idto= (ImgDTO) dto.getImgdtolist().get(2);
-		assertEquals("돈가스.jpg", idto.getFileName());
+		List<RestraurantDTO> readTotalImg = restrauntDAO.readTotalImg(1);
+		RestraurantDTO dto  = readTotalImg.get(1);
+		ImgDTO idto= (ImgDTO) dto.getImgdtolist().get(1);
+		assertEquals("돈가스.jpg", idto.getImgName());
 	}
 
-	@Test //@Ignore
+	@Test @Ignore
 	public void testTotal() {
 		RestraurantDAO restrauntDAO = (RestraurantDAO)beans.getBean("restraurantDAO");
 		assertEquals(11,restrauntDAO.total("wname", ""));
@@ -100,7 +100,7 @@ public class restrauntDAOTest {
 		fail("Not yet implemented");
 	}
 
-	@Test //@Ignore
+	@Test @Ignore
 	public void testRead() {
 		RestraurantDAO restrauntDAO = (RestraurantDAO) beans.getBean("restraurantDAO");
 		RestraurantDTO restrauntDTO = restrauntDAO.read(1);

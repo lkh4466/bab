@@ -72,17 +72,17 @@ values((select nvl(max(restNum),0)+1 from bab_restraurant),
     </resultMap>
 	
 	<select id="readTotalImg" resultMap="restraurantMap" parameterType="int" >
-	  	select r.restNum, r.memID, r.restName, r.restAddr, r.restPhone, r.foodKind, r.priceRange, r.restTime,
-		i.imgNum, i.imgName, i.restNum
+	  	select r.restNum as restNum, 
+		i.imgNum as imgNum, i.restNum as restNum
 		from bab_restraurant r, bab_image i
-		where r.restNum = i.restNum;                                                                      
+		where r.restNum = i.restNum                                                                      
 	</select>
 	
-	<select id="readTotalSeat" resultMap="seatMap" parameterType="int" >
+	<select id="readTotalSeat" resultMap="restraurantMap" parameterType="int" >
 	  	select r.restNum, r.memID, r.restName, r.restAddr, r.restPhone, r.foodKind, r.priceRange, r.restTime,
-		s.seatsNum, s.seat_width, s.seat_height, s.seat_floor, s.seat_info, s.restNum
-		from bab_restraurant r, bab_seat s
-		where r.restNum = s.restNum;                                                                      
+	  	s.seatsNum, s.seat_width, s.seat_height, s.seat_floor, s.seat_info, s.restNum as restNum2
+		from bab_restraurant r, bab_seat s 
+		where r.restNum = s.restNum                                                                      
 	</select>
 	  
   <select id="list" resultType="RestraurantDTO" parameterType="Map">
