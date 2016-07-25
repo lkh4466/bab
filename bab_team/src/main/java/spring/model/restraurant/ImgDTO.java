@@ -48,9 +48,5 @@ public class ImgDTO {
 	public void setFilenameMF(MultipartFile filenameMF) {
 		this.filenameMF = filenameMF;
 	}
-	
-	
-	
-	
 
 }
