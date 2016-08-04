@@ -25,7 +25,7 @@ public class GroupCodeDAOTest extends GroupCodeDAO {
 	public static void setUpBeforeClass() throws Exception {
 		Resource resource = new ClassPathResource("kys.xml");
 		beans = new XmlBeanFactory(resource);
-	}
+	} 
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
@@ -49,7 +49,7 @@ public class GroupCodeDAOTest extends GroupCodeDAO {
 		GroupCodeDAO groupCodeDAO = (GroupCodeDAO)beans.getBean("GroupCodeDAO");
 		GroupCodeDTO groupCodeDTO = groupCodeDAO.read("C02");
 		assertEquals("C02", groupCodeDTO.getGrpCode());
-		assertEquals("튀김", groupCodeDTO.getGroupName());
+		assertEquals("��源�", groupCodeDTO.getGroupName());
 		assertEquals("C0", groupCodeDTO.getUpperCode());
 		
 	}
@@ -63,7 +63,7 @@ public class GroupCodeDAOTest extends GroupCodeDAO {
 	public void testUpdate() {
 		GroupCodeDAO groupCodeDAO = (GroupCodeDAO)beans.getBean("GroupCodeDAO");
 		GroupCodeDTO groupCodeDTO = groupCodeDAO.read("C02");
-		groupCodeDTO.setGroupName("튀김");
+		groupCodeDTO.setGroupName("��源�");
 		groupCodeDTO.setUpperCode("C0");
 		assertEquals(1, groupCodeDAO.update(groupCodeDTO));
 	}
@@ -73,7 +73,7 @@ public class GroupCodeDAOTest extends GroupCodeDAO {
 		GroupCodeDAO groupCodeDAO = (GroupCodeDAO)beans.getBean("GroupCodeDAO");
 		GroupCodeDTO groupCodeDTO = new GroupCodeDTO();
 		groupCodeDTO.setGrpCode("C03");
-		groupCodeDTO.setGroupName("튀김");
+		groupCodeDTO.setGroupName("��源�");
 		groupCodeDTO.setUpperCode("C0");
 		assertEquals(1, groupCodeDAO.create(groupCodeDTO));
 	}
