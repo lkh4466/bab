@@ -6,16 +6,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="msg">
 
 	<select id="list" resultType="MsgDTO" parameterType="Map">
-		SELECT 	msgNum, msgContent, sendID, sendDate,
-				sendDelete, recvID, recvDate,
+		SELECT 	msgNum, msgTitle, msgContent, sendID, 
+				sendDate, sendDelete, recvID, recvDate,
 				recvDelete, recvRead, r                                                               
 		FROM(                                                                  
-			SELECT 	msgNum, msgContent, sendID, sendDate,
-					sendDelete, recvID, recvDate,
+			SELECT 	msgNum, msgTitle, msgContent, sendID, 
+					sendDate, sendDelete, recvID, recvDate,
 					recvDelete, recvRead, rownum r                                                   
 			FROM(                                                   
-				SELECT 	msgNum, msgContent, sendID, sendDate,
-						sendDelete, recvID, recvDate,
+				SELECT 	msgNum, msgTitle, msgContent, sendID, 
+						sendDate, sendDelete, recvID, recvDate,
 						recvDelete, recvRead  
 				FROM bab_messagebox                                                                                                                           
 	          	<where>
@@ -95,9 +95,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</selectKey>
 		INSERT INTO bab_messagebox(
 			msgNum, 
-			msgContent, sendID, sendDate, recvID
+			msgTitle, msgContent, sendID, sendDate, recvID
 		) VALUES(
-			#{msgNum}, #{msgContent}, #{sendID}, sysdate, #{recvID}
+			#{msgTitle}, #{msgNum}, #{msgContent}, #{sendID}, sysdate, #{recvID}
 		)
 	</insert>
 	

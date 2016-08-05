@@ -22,6 +22,15 @@ float:right;
 padding-right: 30px
 }
 </style>
+
+<script type="text/javascript">
+function message(){ 
+	url="${pageContext.request.contextPath}/msg/recvMsg";  // GET 
+    wr = window.open(url, "쪽지함", "width=780,height=500"); 
+    wr.moveTo((window.screen.width-500)/2, (window.screen.height - 400)/2);// x, y  
+} 
+</script>
+
 </head>
 <body>
 <!-- 상단 메뉴 -->
@@ -51,6 +60,12 @@ padding-right: 30px
 	     <li><a href="${pageContext.request.contextPath}/member/delete">회원탈퇴</a></li>   
 	     </c:otherwise>
      </c:choose>
+     
+     
+     <li><a href='javascript:void(0);' onclick="message();">쪽지함</a></li>
+     
+     
+     
      <li><a href="${pageContext.request.contextPath}/bbs/list">글목록</a></li>
      <li><a href="${pageContext.request.contextPath}/bbs/create">글생성</a></li>
      <li><a href="${pageContext.request.contextPath}/memo/list">메모목록</a></li>

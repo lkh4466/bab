@@ -3,33 +3,33 @@
     "-//Aapche Software Foundation//DTD Tiles Configuration 2.0//EN" 
     "http://tiles.apache.org/dtds/tiles-config_2_0.dtd"> 
 
-<tiles-definitions> 
-     <definition name="main" template="/WEB-INF/views/templates/template.jsp"> 
-        <put-attribute name="header" value="/WEB-INF/views/templates/top.jsp" /> 
-        <put-attribute name="footer" value="/WEB-INF/views/templates/bottom.jsp" /> 
-    </definition>
-	<definition name="/bbs/delete" extends="main"> 
-        <put-attribute name="title" value="Spring4 글삭제" ></put-attribute> 
-        <put-attribute name="body" value="/WEB-INF/views/bbs/deleteForm.jsp" /> 
-    </definition>
-	<definition name="/bbs/update" extends="main"> 
-        <put-attribute name="title" value="Spring4 글 수정" ></put-attribute> 
-        <put-attribute name="body" value="/WEB-INF/views/bbs/updateForm.jsp" /> 
-    </definition>
-	<definition name="/bbs/read" extends="main"> 
-        <put-attribute name="title" value="Spring4 글 내용" ></put-attribute> 
-        <put-attribute name="body" value="/WEB-INF/views/bbs/read.jsp" /> 
-    </definition>
-	<definition name="/bbs/create" extends="main"> 
-        <put-attribute name="title" value="Spring4 글 쓰기" ></put-attribute> 
-        <put-attribute name="body" value="/WEB-INF/views/bbs/createForm.jsp" /> 
-    </definition>   
-	<definition name="/bbs/reply" extends="main"> 
-        <put-attribute name="title" value="Spring4 답변" ></put-attribute> 
-        <put-attribute name="body" value="/WEB-INF/views/bbs/replyForm.jsp" /> 
-    </definition>   	
-	<definition name="/bbs/list" extends="main"> 
-        <put-attribute name="title" value="Spring4 글 목록" ></put-attribute> 
-        <put-attribute name="body" value="/WEB-INF/views/bbs/list.jsp" /> 
-    </definition>   		
+<tiles-definitions>
+	<definition name="msg_main" template="/WEB-INF/views/templates/template.jsp"> 
+		<put-attribute name="header" value="/WEB-INF/views/templates/msg_top.jsp" /> 
+		<put-attribute name="footer" value="/WEB-INF/views/templates/msg_bottom.jsp" /> 
+	</definition>   
+	<definition name="/msg/recvMsg" extends="msg_main"> 
+		<put-attribute name="title" value="Spring4" ></put-attribute> 
+		<put-attribute name="body" value="/WEB-INF/views/msg/recvMsg.jsp" /> 
+	</definition> 	   		
+	<definition name="/msg/delRecvMsg" extends="msg_main"> 
+		<put-attribute name="title" value="Spring4" ></put-attribute> 
+		<put-attribute name="body" value="/WEB-INF/views/msg/delRecvMsg.jsp" /> 
+	</definition> 	   		
+	<definition name="/msg/read" extends="msg_main"> 
+		<put-attribute name="title" value="Spring4" ></put-attribute> 
+		<put-attribute name="body" value="/WEB-INF/views/msg/read.jsp" /> 
+	</definition> 	   		
+	<definition name="/msg/sendMsg" extends="msg_main"> 
+		<put-attribute name="title" value="Spring4" ></put-attribute> 
+		<put-attribute name="body" value="/WEB-INF/views/msg/sendMsg.jsp" /> 
+	</definition> 	   		
+	<definition name="/msg/delSendMsg" extends="msg_main"> 
+		<put-attribute name="title" value="Spring4" ></put-attribute> 
+		<put-attribute name="body" value="/WEB-INF/views/msg/delSendMsg.jsp" /> 
+	</definition> 	   		
+	<definition name="/msg/createMsg" extends="msg_main"> 
+		<put-attribute name="title" value="Spring4" ></put-attribute> 
+		<put-attribute name="body" value="/WEB-INF/views/msg/createMsg.jsp" /> 
+	</definition> 	   		
 </tiles-definitions> 

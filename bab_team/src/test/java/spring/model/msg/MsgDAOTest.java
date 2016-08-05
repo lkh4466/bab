@@ -101,9 +101,10 @@ public class MsgDAOTest {
 		MsgDAO msgDAO = (MsgDAO) beans.getBean("msgDAO");
 		
 		MsgDTO msgDTO = new MsgDTO();
-		msgDTO.setMsgContent("ï¿½È³ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½");
-		msgDTO.setSendID("user2");
-		msgDTO.setRecvID("admin");
+		msgDTO.setMsgContent("ÇÏÀÌ");
+		msgDTO.setSendID("user1");
+		msgDTO.setRecvID("user2");
+		msgDTO.setMsgTitle("Á¦¸ñ");
 		
 		assertTrue(msgDAO.create(msgDTO));
 	}

@@ -2,6 +2,7 @@ package spring.model.msg;
 
 public class MsgDTO {
 	int 	msgNum    	;  
+	String	msgTitle	;  
     String	msgContent	;  
     String	sendID    	;  
     String	sendDate  	;  
@@ -17,6 +18,12 @@ public class MsgDTO {
 	}
 	public void setMsgNum(int msgNum) {
 		this.msgNum = msgNum;
+	}
+	public String getMsgTitle() {
+		return msgTitle;
+	}
+	public void setMsgTitle(String msgTitle) {
+		this.msgTitle = msgTitle;
 	}
 	public String getMsgContent() {
 		return msgContent;

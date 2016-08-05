@@ -71,10 +71,11 @@
 		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<property name="definitions">
 			<list>
-				<value>/WEB-INF/spring/lkh.xml</value>
+<!--				<value>/WEB-INF/spring/lkh.xml</value>-->
 <!-- 				<value>/WEB-INF/spring/kjy.xml</value> -->
 <!-- 				<value>/WEB-INF/spring/lji.xml</value> -->
-<!-- 				<value>/WEB-INF/spring/kys.xml</value> -->
+				<value>/WEB-INF/spring/kys.xml</value> 
+				<value>/WEB-INF/spring/kys2.xml</value> 
 <!-- 				<value>/WEB-INF/spring/kwj.xml</value> -->
 			</list>
 		</property>
@@ -91,3 +92,5 @@
 	</bean>
 
 </beans>
+
+     
